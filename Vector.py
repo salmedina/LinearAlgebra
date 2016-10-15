@@ -123,34 +123,32 @@ class Vector(object):
             raise Exception("A Vector is required to calculate the angle")
         return isclose(self * other, Decimal(0))
 
+    def project_parallel(self, other):
+        if type(other) is not Vector:
+            raise Exception("A Vector is required for projection")
 
-v1 = Vector([-7.579, -7.88])
-w1 = Vector([22.737, 23.64])
+        u_other = other.unit()
+        return (self*u_other)*u_other
 
-v2 = Vector([-2.029, 9.97, 4.172])
-w2 = Vector([-9.231, -6.639, -7.245])
+    def project_orthogonal(self, other):
+        if type(other) is not Vector:
+            raise Exception("A Vector is required for projection")
 
-v3 = Vector([-2.328, -7.284,-1.214])
-w3 = Vector([-1.821,1.072,-2.94])
-
-v4 = Vector([2.118, 4.827])
-w4 = Vector([0,0])
+        para_proj = self.project_parallel(other)
+        return self-para_proj
 
 
-print v1.angle(w1)
-print v1.is_parallel(w1)
-print v1.is_orthogonal(w1)
-print ''
-print v2.angle(w2)
-print v2.is_parallel(w2)
-print v2.is_orthogonal(w2)
-print ''
-print v3.angle(w3)
-print v3*w3
-print v3.is_parallel(w3)
-print v3.is_orthogonal(w3)
-print ''
-print v4.angle(w4)
-print v4.is_parallel(w4)
-print v4.is_orthogonal(w4)
+v1 = Vector([3.039, 1.879])
+b1 = Vector([0.825, 2.036])
 
+print v1.project_parallel(b1)
+
+
+v2 = Vector([-9.88, -3.264, -8.159])
+b2 = Vector([-2.155, -9.353, -9.473])
+print v2.project_orthogonal(b2)
+
+v3 = Vector([3.009, -6.172, 3.692, -2.51])
+b3 = Vector([6.404, -9.144, 2.759, 8.718])
+print v3.project_parallel(b3)
+print v3.project_orthogonal(b3)
